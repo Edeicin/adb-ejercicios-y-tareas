@@ -1,0 +1,107 @@
+-- 1. Primer apellido de todos los empleados
+SELECT apellido1 FROM empleado;
+
+-- 2. Primer apellido eliminando repetidos
+SELECT DISTINCT apellido1 FROM empleado;
+
+-- 3. Todas las columnas de la tabla empleado
+SELECT * FROM empleado;
+
+-- 4. Nombre y apellidos de los empleados
+SELECT nombre, apellido1, apellido2 FROM empleado;
+
+-- 5. ID de departamentos de empleados
+SELECT id_departamento FROM empleado;
+
+-- 6. ID de departamentos sin repetir
+SELECT DISTINCT id_departamento FROM empleado;
+
+-- 7. Nombre completo en una sola columna
+SELECT CONCAT(nombre, ' ', apellido1, ' ', apellido2) AS nombre_completo FROM empleado;
+
+-- 8. Nombre completo en mayúscula
+SELECT UPPER(CONCAT(nombre, ' ', apellido1, ' ', apellido2)) AS nombre_completo FROM empleado;
+
+-- 9. Nombre completo en minúscula
+SELECT LOWER(CONCAT(nombre, ' ', apellido1, ' ', apellido2)) AS nombre_completo FROM empleado;
+
+-- 10. ID y NIF separados
+SELECT id, LEFT(nif, LENGTH(nif) - 1) AS digitos, RIGHT(nif, 1) AS letra FROM empleado;
+
+-- 11. Nombre y presupuesto actual (presupuesto - gastos)
+SELECT nombre, (presupuesto - gastos) AS presupuesto_actual FROM departamento;
+
+-- 12. Nombre y presupuesto actual ordenado ascendente
+SELECT nombre, (presupuesto - gastos) AS presupuesto_actual FROM departamento ORDER BY presupuesto_actual ASC;
+
+-- 13. Nombre de todos los departamentos orden ascendente
+SELECT nombre FROM departamento ORDER BY nombre ASC;
+
+-- 14. Nombre de todos los departamentos orden descendente
+SELECT nombre FROM departamento ORDER BY nombre DESC;
+
+-- 15. Apellidos y nombre de empleados ordenados alfabéticamente
+SELECT apellido1, apellido2, nombre FROM empleado ORDER BY apellido1, apellido2, nombre;
+
+-- 16. Top 3 departamentos con mayor presupuesto
+SELECT nombre, presupuesto FROM departamento ORDER BY presupuesto DESC LIMIT 3;
+
+-- 17. Top 3 departamentos con menor presupuesto
+SELECT nombre, presupuesto FROM departamento ORDER BY presupuesto ASC LIMIT 3;
+
+-- 18. Top 2 departamentos con mayor gasto
+SELECT nombre, gastos FROM departamento ORDER BY gastos DESC LIMIT 2;
+
+-- 19. Top 2 departamentos con menor gasto
+SELECT nombre, gastos FROM departamento ORDER BY gastos ASC LIMIT 2;
+
+-- 20. 5 filas a partir de la tercera de empleado
+SELECT * FROM empleado LIMIT 2, 5;
+
+-- 21. Departamentos con presupuesto >= 150000
+SELECT nombre, presupuesto FROM departamento WHERE presupuesto >= 150000;
+
+-- 22. Departamentos con gastos < 5000
+SELECT nombre, gastos FROM departamento WHERE gastos < 5000;
+
+-- 23. Departamentos con presupuesto entre 100000 y 200000 (sin BETWEEN)
+SELECT nombre, presupuesto FROM departamento WHERE presupuesto >= 100000 AND presupuesto <= 200000;
+
+-- 24. Departamentos con presupuesto no entre 100000 y 200000 (sin BETWEEN)
+SELECT nombre, presupuesto FROM departamento WHERE presupuesto < 100000 OR presupuesto > 200000;
+
+-- 25. Departamentos con presupuesto entre 100000 y 200000 (con BETWEEN)
+SELECT nombre, presupuesto FROM departamento WHERE presupuesto BETWEEN 100000 AND 200000;
+
+-- 26. Departamentos con presupuesto no entre 100000 y 200000 (con BETWEEN)
+SELECT nombre, presupuesto FROM departamento WHERE presupuesto NOT BETWEEN 100000 AND 200000;
+
+-- 27. Departamentos con gastos > presupuesto
+SELECT nombre, gastos, presupuesto FROM departamento WHERE gastos > presupuesto;
+
+-- 28. Departamentos con gastos < presupuesto
+SELECT nombre, gastos, presupuesto FROM departamento WHERE gastos < presupuesto;
+
+-- 29. Departamentos con gastos = presupuesto
+SELECT nombre, gastos, presupuesto FROM departamento WHERE gastos = presupuesto;
+
+-- 30. Empleados con segundo apellido NULL
+SELECT * FROM empleado WHERE apellido2 IS NULL;
+
+-- 31. Empleados con segundo apellido no NULL
+SELECT * FROM empleado WHERE apellido2 IS NOT NULL;
+
+-- 32. Empleados cuyo segundo apellido sea 'López'
+SELECT * FROM empleado WHERE apellido2 = 'López';
+
+-- 33. Empleados cuyo segundo apellido sea 'Díaz' o 'Moreno' (sin IN)
+SELECT * FROM empleado WHERE apellido2 = 'Díaz' OR apellido2 = 'Moreno';
+
+-- 34. Empleados cuyo segundo apellido sea 'Díaz' o 'Moreno' (con IN)
+SELECT * FROM empleado WHERE apellido2 IN ('Díaz', 'Moreno');
+
+-- 35. Nombre, apellidos y NIF de empleados en departamento 3
+SELECT nombre, apellido1, apellido2, nif FROM empleado WHERE id_departamento = 3;
+
+-- 36. Nombre, apellidos y NIF de empleados en departamentos 2, 4 o 5
+SELECT nombre, apellido1, apellido2, nif FROM empleado WHERE id_departamento IN (2, 4, 5);
