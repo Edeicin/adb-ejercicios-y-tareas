@@ -1,0 +1,43 @@
+-- 1. Todos los pedidos ordenados por fecha (más recientes primero):
+SELECT * FROM pedido ORDER BY fecha DESC;
+
+-- 2. Los dos pedidos de mayor valor:
+SELECT * FROM pedido ORDER BY total DESC LIMIT 2;
+
+-- 3. Identificadores de clientes que han hecho pedidos (sin repetir):
+SELECT DISTINCT id_cliente FROM pedido;
+
+-- 4. Pedidos del año 2017 con total > 500€:
+SELECT * FROM pedido 
+WHERE YEAR(fecha) = 2017 AND total > 500;
+
+-- 5. Nombre y apellidos de comerciales con comisión entre 0.05 y 0.11:
+SELECT nombre, apellido1, apellido2 
+FROM comercial 
+WHERE comision BETWEEN 0.05 AND 0.11;
+
+-- 6. Comisión más alta:
+SELECT MAX(comision) AS comision_maxima FROM comercial;
+
+-- 7. Clientes con segundo apellido no nulo, ordenados alfabéticamente:
+SELECT id, nombre, apellido1 
+FROM cliente 
+WHERE apellido2 IS NOT NULL 
+ORDER BY apellido1, nombre;
+
+-- 8. Clientes cuyo nombre empieza por A y termina por n, o empieza por P:
+SELECT nombre 
+FROM cliente 
+WHERE (nombre LIKE 'A%n' OR nombre LIKE 'P%') 
+ORDER BY nombre;
+
+-- 9. Clientes cuyo nombre no empieza por A, orden alfabético:
+SELECT nombre 
+FROM cliente 
+WHERE nombre NOT LIKE 'A%' 
+ORDER BY nombre;
+
+-- 10. Nombres de comerciales que terminan en 'o' (sin repetir):
+SELECT DISTINCT nombre 
+FROM comercial 
+WHERE nombre LIKE '%o';
