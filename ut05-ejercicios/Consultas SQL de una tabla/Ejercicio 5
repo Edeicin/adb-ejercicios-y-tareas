@@ -1,0 +1,150 @@
+-- 1. Listado de alumnos ordenado alfabéticamente
+SELECT apellido1, apellido2, nombre
+FROM persona
+WHERE tipo = 'alumno'
+ORDER BY apellido1, apellido2, nombre;
+
+-- 2. Alumnos sin teléfono
+SELECT nombre, apellido1, apellido2
+FROM persona
+WHERE tipo = 'alumno' AND (telefono IS NULL OR telefono = '');
+
+-- 3. Alumnos nacidos en 1999
+SELECT *
+FROM persona
+WHERE tipo = 'alumno' AND YEAR(fecha_nacimiento) = 1999;
+
+-- 4. Profesores sin teléfono y NIF termina en 'K'
+SELECT nombre, apellido1, apellido2
+FROM persona
+WHERE tipo = 'profesor' AND (telefono IS NULL OR telefono = '') AND nif LIKE '%K';
+
+-- 5. Asignaturas del 1er cuatrimestre, 3er curso, grado 7
+SELECT nombre
+FROM asignatura
+WHERE cuatrimestre = 1 AND curso = 3 AND id_grado = 7;
+
+-- 6. Nombres de todos los alumnos
+SELECT nombre
+FROM persona
+WHERE tipo = 'alumno';
+
+-- 7. Alumnos que viven en Madrid
+SELECT *
+FROM persona
+WHERE tipo = 'alumno' AND ciudad = 'Madrid';
+
+-- 8. Alumnos cuya ciudad comienza por 'S'
+SELECT *
+FROM persona
+WHERE tipo = 'alumno' AND ciudad LIKE 'S%';
+
+-- 9. Alumnos que no viven en Madrid
+SELECT *
+FROM persona
+WHERE tipo = 'alumno' AND ciudad != 'Madrid';
+
+-- 10. Total de alumnos
+SELECT COUNT(*) AS total_alumnos
+FROM persona
+WHERE tipo = 'alumno';
+
+-- 11. Ciudades diferentes entre alumnos
+SELECT COUNT(DISTINCT ciudad) AS ciudades_diferentes
+FROM persona
+WHERE tipo = 'alumno';
+
+-- 12. Nombres y ciudades de alumnos ordenados por ciudad
+SELECT nombre, ciudad
+FROM persona
+WHERE tipo = 'alumno'
+ORDER BY ciudad;
+
+-- 13. Número de alumnos por ciudad
+SELECT ciudad, COUNT(*) AS num_alumnos
+FROM persona
+WHERE tipo = 'alumno'
+GROUP BY ciudad;
+
+-- 14. Alumnos cuyo nombre contiene 'a'
+SELECT *
+FROM persona
+WHERE tipo = 'alumno' AND nombre LIKE '%a%';
+
+-- 15. Alumnos cuya ciudad tiene exactamente 5 caracteres
+SELECT *
+FROM persona
+WHERE tipo = 'alumno' AND LENGTH(ciudad) = 5;
+
+-- 16. Nombre de todos los profesores
+SELECT nombre
+FROM persona
+WHERE tipo = 'profesor';
+
+-- 17. Profesores del departamento 10
+SELECT *
+FROM persona p
+JOIN profesor pr ON p.id = pr.id_profesor
+WHERE pr.id_departamento = 10;
+
+-- 18. Profesores cuyo nombre empieza por 'M'
+SELECT *
+FROM persona
+WHERE tipo = 'profesor' AND nombre LIKE 'M%';
+
+-- 19. Número de profesores por departamento
+SELECT id_departamento, COUNT(*) AS total_profesores
+FROM profesor
+GROUP BY id_departamento;
+
+-- 20. Nombre del profesor con el código más alto
+SELECT nombre
+FROM persona
+WHERE id = (SELECT MAX(id_profesor) FROM profesor);
+
+-- 21. Total de profesores
+SELECT COUNT(*) AS total_profesores
+FROM persona
+WHERE tipo = 'profesor';
+
+-- 22. Códigos de departamentos distintos de profesores
+SELECT DISTINCT id_departamento
+FROM profesor;
+
+-- 23. Nombre de asignaturas de 1er curso
+SELECT nombre
+FROM asignatura
+WHERE curso = 1;
+
+-- 24. Asignaturas del primer cuatrimestre
+SELECT nombre
+FROM asignatura
+WHERE cuatrimestre = 1;
+
+-- 25. Asignaturas con más de 6 créditos
+SELECT nombre
+FROM asignatura
+WHERE creditos > 6;
+
+-- 26. Número de asignaturas por curso
+SELECT curso, COUNT(*) AS total_asignaturas
+FROM asignatura
+GROUP BY curso;
+
+-- 27. Asignaturas ordenadas por créditos descendente
+SELECT nombre, creditos
+FROM asignatura
+ORDER BY creditos DESC;
+
+-- 28. Asignaturas que contienen la palabra 'Programación'
+SELECT nombre
+FROM asignatura
+WHERE nombre LIKE '%Programación%';
+
+-- 29. Total de asignaturas
+SELECT COUNT(*) AS total_asignaturas
+FROM asignatura;
+
+-- 30. Total de matrículas registradas
+SELECT COUNT(*) AS total_matriculas
+FROM alumno_se_matricula_asignatura;
