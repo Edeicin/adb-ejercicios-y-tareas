@@ -1,0 +1,58 @@
+-- 1. Empleados y datos de sus departamentos
+SELECT e.*, d.*
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id;
+
+-- 2. Empleados y departamentos ordenados por nombre de departamento, apellidos y nombre
+SELECT e.*, d.*
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id
+ORDER BY d.nombre, e.apellido1, e.apellido2, e.nombre;
+
+-- 3. Departamentos con empleados
+SELECT DISTINCT d.id, d.nombre
+FROM departamentos d
+JOIN empleados e ON d.id = e.id_departamento;
+
+-- 4. Departamentos con empleados y presupuesto actual
+SELECT d.id, d.nombre, d.presupuesto - d.gastos AS presupuesto_actual
+FROM departamentos d
+JOIN empleados e ON d.id = e.id_departamento;
+
+-- 5. Departamento del empleado con NIF 38382980M
+SELECT d.nombre
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id
+WHERE e.nif = '38382980M';
+
+-- 6. Departamento donde trabaja Pepe Ruiz Santana
+SELECT d.nombre
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id
+WHERE e.nombre = 'Pepe' AND e.apellido1 = 'Ruiz' AND e.apellido2 = 'Santana';
+
+-- 7. Empleados del departamento I+D
+SELECT e.*
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id
+WHERE d.nombre = 'I+D'
+ORDER BY e.apellido1, e.apellido2, e.nombre;
+
+-- 8. Empleados de Sistemas, Contabilidad o I+D
+SELECT e.*
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id
+WHERE d.nombre IN ('Sistemas', 'Contabilidad', 'I+D')
+ORDER BY e.apellido1, e.apellido2, e.nombre;
+
+-- 9. Empleados de departamentos con presupuesto fuera de 100000 - 200000
+SELECT e.nombre
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id
+WHERE d.presupuesto NOT BETWEEN 100000 AND 200000;
+
+-- 10. Departamentos con empleados cuyo segundo apellido es NULL (sin repetir)
+SELECT DISTINCT d.nombre
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id
+WHERE e.apellido2 IS NULL;

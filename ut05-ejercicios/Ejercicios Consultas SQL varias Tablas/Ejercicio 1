@@ -1,0 +1,77 @@
+-- 1. Nombre del producto, precio y nombre del fabricante
+SELECT p.nombre, p.precio, f.nombre
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id;
+
+-- 2. Ordenado por nombre del fabricante
+SELECT p.nombre, p.precio, f.nombre
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id
+ORDER BY f.nombre;
+
+-- 3. ID producto, nombre, ID y nombre del fabricante
+SELECT p.id, p.nombre, f.id, f.nombre
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id;
+
+-- 4. Producto más barato
+SELECT p.nombre, p.precio, f.nombre
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id
+ORDER BY p.precio ASC
+LIMIT 1;
+
+-- 5. Producto más caro
+SELECT p.nombre, p.precio, f.nombre
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id
+ORDER BY p.precio DESC
+LIMIT 1;
+
+-- 6. Productos del fabricante Lenovo
+SELECT p.*
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id
+WHERE f.nombre = 'Lenovo';
+
+-- 7. Productos del fabricante Crucial con precio > 200
+SELECT p.*
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id
+WHERE f.nombre = 'Crucial' AND p.precio > 200;
+
+-- 8. Productos de Asus, Hewlett-Packard y Seagate (sin IN)
+SELECT p.*
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id
+WHERE f.nombre = 'Asus' OR f.nombre = 'Hewlett-Packard' OR f.nombre = 'Seagate';
+
+-- 9. Productos de Asus, Hewlett-Packard y Seagate (con IN)
+SELECT p.*
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id
+WHERE f.nombre IN ('Asus', 'Hewlett-Packard', 'Seagate');
+
+-- 10. Productos de fabricantes cuyo nombre termina en "e"
+SELECT p.nombre, p.precio
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id
+WHERE f.nombre LIKE '%e';
+
+-- 11. Productos de fabricantes con "w" en su nombre
+SELECT p.nombre, p.precio
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id
+WHERE f.nombre LIKE '%w%';
+
+-- 12. Productos con precio ≥ 180€, orden descendente por precio y ascendente por nombre
+SELECT p.nombre, p.precio, f.nombre
+FROM productos p
+JOIN fabricantes f ON p.id_fabricante = f.id
+WHERE p.precio >= 180
+ORDER BY p.precio DESC, p.nombre ASC;
+
+-- 13. Fabricantes con productos asociados
+SELECT DISTINCT f.id, f.nombre
+FROM fabricantes f
+JOIN productos p ON f.id = p.id_fabricante;
