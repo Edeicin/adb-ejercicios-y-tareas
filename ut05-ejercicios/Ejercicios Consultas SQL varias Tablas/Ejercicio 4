@@ -1,0 +1,94 @@
+-- 1. Cliente y su representante de ventas
+-- SQL1
+SELECT c.nombre_cliente, e.nombre, e.apellido
+FROM clientes c
+JOIN empleados e ON c.codigo_empleado_rep_ventas = e.codigo_empleado;
+
+-- SQL2
+SELECT c.nombre_cliente, e.nombre, e.apellido
+FROM clientes c, empleados e
+WHERE c.codigo_empleado_rep_ventas = e.codigo_empleado;
+
+-- 2. Clientes con pagos y su representante
+-- SQL1
+SELECT DISTINCT c.nombre_cliente, e.nombre, e.apellido
+FROM clientes c
+JOIN empleados e ON c.codigo_empleado_rep_ventas = e.codigo_empleado
+JOIN pagos p ON c.codigo_cliente = p.codigo_cliente;
+
+-- SQL2
+SELECT DISTINCT c.nombre_cliente, e.nombre, e.apellido
+FROM clientes c, empleados e, pagos p
+WHERE c.codigo_empleado_rep_ventas = e.codigo_empleado
+AND c.codigo_cliente = p.codigo_cliente;
+
+-- 3. Clientes sin pagos y su representante
+-- SQL1
+SELECT c.nombre_cliente, e.nombre, e.apellido
+FROM clientes c
+JOIN empleados e ON c.codigo_empleado_rep_ventas = e.codigo_empleado
+LEFT JOIN pagos p ON c.codigo_cliente = p.codigo_cliente
+WHERE p.codigo_pago IS NULL;
+
+-- SQL2
+SELECT c.nombre_cliente, e.nombre, e.apellido
+FROM clientes c, empleados e
+WHERE c.codigo_empleado_rep_ventas = e.codigo_empleado
+AND c.codigo_cliente NOT IN (
+  SELECT codigo_cliente FROM pagos
+);
+
+-- 4. Clientes con pagos, representante y ciudad oficina
+-- SQL1
+SELECT DISTINCT c.nombre_cliente, e.nombre, e.apellido, o.ciudad
+FROM clientes c
+JOIN empleados e ON c.codigo_empleado_rep_ventas = e.codigo_empleado
+JOIN pagos p ON c.codigo_cliente = p.codigo_cliente
+JOIN oficinas o ON e.codigo_oficina = o.codigo_oficina;
+
+-- 5. Clientes sin pagos, representante y ciudad oficina
+-- SQL1
+SELECT c.nombre_cliente, e.nombre, e.apellido, o.ciudad
+FROM clientes c
+JOIN empleados e ON c.codigo_empleado_rep_ventas = e.codigo_empleado
+JOIN oficinas o ON e.codigo_oficina = o.codigo_oficina
+LEFT JOIN pagos p ON c.codigo_cliente = p.codigo_cliente
+WHERE p.codigo_pago IS NULL;
+
+-- 6. Dirección de oficinas con clientes en Fuenlabrada
+SELECT DISTINCT o.direccion
+FROM oficinas o
+JOIN empleados e ON o.codigo_oficina = e.codigo_oficina
+JOIN clientes c ON e.codigo_empleado = c.codigo_empleado_rep_ventas
+WHERE c.ciudad = 'Fuenlabrada';
+
+-- 7. Clientes, sus representantes y ciudad oficina
+SELECT c.nombre_cliente, e.nombre, e.apellido, o.ciudad
+FROM clientes c
+JOIN empleados e ON c.codigo_empleado_rep_ventas = e.codigo_empleado
+JOIN oficinas o ON e.codigo_oficina = o.codigo_oficina;
+
+-- 8. Empleados y sus jefes
+SELECT e.nombre AS empleado, j.nombre AS jefe
+FROM empleados e
+JOIN empleados j ON e.codigo_jefe = j.codigo_empleado;
+
+-- 9. Empleado, su jefe y el jefe del jefe
+SELECT e.nombre AS empleado, j.nombre AS jefe, jj.nombre AS jefe_del_jefe
+FROM empleados e
+JOIN empleados j ON e.codigo_jefe = j.codigo_empleado
+JOIN empleados jj ON j.codigo_jefe = jj.codigo_empleado;
+
+-- 10. Clientes con pedidos entregados fuera de plazo
+SELECT DISTINCT c.nombre_cliente
+FROM clientes c
+JOIN pedidos p ON c.codigo_cliente = p.codigo_cliente
+WHERE p.fecha_entrega > p.fecha_esperada;
+
+-- 11. Gamas de producto que ha comprado cada cliente
+SELECT DISTINCT c.nombre_cliente, gp.gama
+FROM clientes c
+JOIN pedidos p ON c.codigo_cliente = p.codigo_cliente
+JOIN detalle_pedidos dp ON p.codigo_pedido = dp.codigo_pedido
+JOIN productos pr ON dp.codigo_producto = pr.codigo_producto
+JOIN gamas_producto gp ON pr.gama = gp.gama;

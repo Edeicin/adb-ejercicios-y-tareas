@@ -1,0 +1,95 @@
+-- 1. Clientes que han realizado pedidos
+-- SQL1
+SELECT DISTINCT c.id_cliente, c.nombre, c.apellidos
+FROM clientes c
+JOIN pedidos p ON c.id_cliente = p.id_cliente
+ORDER BY c.nombre, c.apellidos;
+
+-- SQL2
+SELECT DISTINCT c.id_cliente, c.nombre, c.apellidos
+FROM clientes c, pedidos p
+WHERE c.id_cliente = p.id_cliente
+ORDER BY c.nombre, c.apellidos;
+
+-- 2. Todos los pedidos por cliente
+-- SQL1
+SELECT c.*, p.*
+FROM clientes c
+JOIN pedidos p ON c.id_cliente = p.id_cliente
+ORDER BY c.nombre, c.apellidos;
+
+-- SQL2
+SELECT c.*, p.*
+FROM clientes c, pedidos p
+WHERE c.id_cliente = p.id_cliente
+ORDER BY c.nombre, c.apellidos;
+
+-- 3. Pedidos con participación de comercial
+-- SQL1
+SELECT p.*, com.*
+FROM pedidos p
+JOIN comerciales com ON p.id_comercial = com.id_comercial
+ORDER BY com.nombre, com.apellidos;
+
+-- SQL2
+SELECT p.*, com.*
+FROM pedidos p, comerciales com
+WHERE p.id_comercial = com.id_comercial
+ORDER BY com.nombre, com.apellidos;
+
+-- 4. Clientes con pedidos y comerciales asociados
+-- SQL1
+SELECT c.*, p.*, com.*
+FROM clientes c
+JOIN pedidos p ON c.id_cliente = p.id_cliente
+JOIN comerciales com ON p.id_comercial = com.id_comercial;
+
+-- SQL2
+SELECT c.*, p.*, com.*
+FROM clientes c, pedidos p, comerciales com
+WHERE c.id_cliente = p.id_cliente
+AND p.id_comercial = com.id_comercial;
+
+-- 5. Clientes con pedidos entre 300€ y 1000€ en 2017
+-- SQL1
+SELECT DISTINCT c.*
+FROM clientes c
+JOIN pedidos p ON c.id_cliente = p.id_cliente
+WHERE YEAR(p.fecha_pedido) = 2017 AND p.total BETWEEN 300 AND 1000;
+
+-- SQL2
+SELECT DISTINCT c.*
+FROM clientes c, pedidos p
+WHERE c.id_cliente = p.id_cliente
+AND YEAR(p.fecha_pedido) = 2017
+AND p.total BETWEEN 300 AND 1000;
+
+-- 6. Comerciales en pedidos de María Santana Moreno
+-- SQL1
+SELECT DISTINCT com.nombre, com.apellidos
+FROM comerciales com
+JOIN pedidos p ON com.id_comercial = p.id_comercial
+JOIN clientes c ON c.id_cliente = p.id_cliente
+WHERE c.nombre = 'María' AND c.apellidos = 'Santana Moreno';
+
+-- SQL2
+SELECT DISTINCT com.nombre, com.apellidos
+FROM comerciales com, pedidos p, clientes c
+WHERE com.id_comercial = p.id_comercial
+AND c.id_cliente = p.id_cliente
+AND c.nombre = 'María' AND c.apellidos = 'Santana Moreno';
+
+-- 7. Clientes con pedidos gestionados por Daniel Sáez Vega
+-- SQL1
+SELECT DISTINCT c.nombre
+FROM clientes c
+JOIN pedidos p ON c.id_cliente = p.id_cliente
+JOIN comerciales com ON p.id_comercial = com.id_comercial
+WHERE com.nombre = 'Daniel' AND com.apellidos = 'Sáez Vega';
+
+-- SQL2
+SELECT DISTINCT c.nombre
+FROM clientes c, pedidos p, comerciales com
+WHERE c.id_cliente = p.id_cliente
+AND p.id_comercial = com.id_comercial
+AND com.nombre = 'Daniel' AND com.apellidos = 'Sáez Vega';
